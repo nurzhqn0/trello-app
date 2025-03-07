@@ -1,6 +1,6 @@
 package kz.bitlab.spring.app.trello_app.service;
 
-import kz.bitlab.spring.app.trello_app.model.Folders;
+import kz.bitlab.spring.app.trello_app.model.Folder;
 import kz.bitlab.spring.app.trello_app.repository.FoldersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.util.List;
 public class FoldersService {
     private final FoldersRepository repository;
 
-    public List<Folders> getAllFolders() {
+    public List<Folder> getAllFolders() {
         log.info("Call this method getAllFolders()");
         return repository.findAll();
     }

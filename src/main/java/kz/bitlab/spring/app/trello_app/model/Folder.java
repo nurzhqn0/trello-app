@@ -1,10 +1,6 @@
 package kz.bitlab.spring.app.trello_app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +10,12 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "folders")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Folders {
+public class Folder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +24,5 @@ public class Folders {
     private String name;
 
     @ManyToMany
-    private List<TaskCategories> categories;
+    private List<TaskCategory> categories;
 }
