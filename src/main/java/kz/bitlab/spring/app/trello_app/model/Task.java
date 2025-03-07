@@ -1,10 +1,8 @@
 package kz.bitlab.spring.app.trello_app.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Table(name = "tasks")
@@ -18,12 +16,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    private String description; // TEXT
+    @Column(name = "description")
+    private String description;
 
     @Enumerated(EnumType.ORDINAL)
-    private TaskStatus status;
+    private TaskStatus status = TaskStatus.TODO;
 
     @ManyToOne
     private Folder folder; // Many To One
