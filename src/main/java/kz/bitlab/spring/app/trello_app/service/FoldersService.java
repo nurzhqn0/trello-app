@@ -20,10 +20,11 @@ public class FoldersService {
         return repository.findAll();
     }
 
-    public Folder getFolderById(Long id) {
+    public Optional<Folder> getFolderById(Long id) {
         log.info("getFolderById with ID: {}", id);
-        return repository.findById(id).orElse(null);
+        return repository.findById(id);
     }
+
 
     public Folder createFolder(Folder folder) {
         log.info("createFolder: {}", folder.getName());
