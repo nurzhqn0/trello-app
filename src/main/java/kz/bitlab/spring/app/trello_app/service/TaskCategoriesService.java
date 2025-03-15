@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,9 +14,9 @@ import java.util.Optional;
 public class TaskCategoriesService {
     private final TaskCategoriesRepository repository;
 
-    public TaskCategory createTaskCategory(TaskCategory category) {
+    public void createTaskCategory(TaskCategory category) {
         log.info("create TaskCategory: {}", category.getName());
-        return repository.save(category);
+        repository.save(category);
     }
 
     public List<TaskCategory> getAllTaskCategories() {
@@ -30,22 +29,20 @@ public class TaskCategoriesService {
         return repository.findById(id).orElse(null);
     }
 
-    public TaskCategory updateTaskCategory(Long id, TaskCategory updatedCategory) {
+    public void updateTaskCategory(Long id, TaskCategory updatedCategory) {
         log.info("updateTaskCategory with ID: {}", id);
-        return repository.findById(id)
+        repository.findById(id)
                 .map(category -> {
                     category.setName(updatedCategory.getName());
                     return repository.save(category);
-                })
-                .orElse(null);
+                });
     }
 
-    public boolean deleteTaskCategory(Long id) {
+    public void deleteTaskCategory(Long id) {
         log.info("deleteTaskCategory with ID: {}", id);
         if (!repository.existsById(id)) {
-            return false;
+            return;
         }
         repository.deleteById(id);
-        return true;
     }
 }

@@ -26,27 +26,25 @@ public class FoldersService {
     }
 
 
-    public Folder createFolder(Folder folder) {
+    public void createFolder(Folder folder) {
         log.info("createFolder: {}", folder.getName());
-        return repository.save(folder);
+        repository.save(folder);
     }
 
-    public Folder updateFolder(Long id, Folder updatedFolder) {
+    public void updateFolder(Long id, Folder updatedFolder) {
         log.info("updateFolder with ID: {}", id);
-        return repository.findById(id)
+        repository.findById(id)
                 .map(folder -> {
                     folder.setName(updatedFolder.getName());
                     return repository.save(folder);
-                })
-                .orElse(null);
+                });
     }
 
-    public boolean deleteFolder(Long id) {
+    public void deleteFolder(Long id) {
         log.info("deleteFolder with ID: {}", id);
         if (!repository.existsById(id)) {
-            return false;
+            return;
         }
         repository.deleteById(id);
-        return true;
     }
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Folder Details</title>
+</head>
+<body>
+<div layout:fragment="mainFragment">
+
+    <div>
+        <h2 th:text="${folder.name}"></h2>
+        <hr>
+
+        <!-- Button to Add Task -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">
+            + New Task
+        </button>
+
+        <!-- Task Modal -->
+        <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskModalLabel">Create New Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{'/tasks/add/' + ${folder.id}}" method="post">
+                            <div class="mb-3">
+                                <label for="taskTitle" class="form-label">Task Title</label>
+                                <input type="text" class="form-control" id="taskTitle" name="title" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Task</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <!-- Tasks List -->
+        <div class="card" th:each="task : ${tasks}" style="margin-bottom: 10px">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${task.title}"></h5>
+                <p class="card-text" th:text="${task.description}"></p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

@@ -23,9 +23,16 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.ORDINAL)
-    private TaskStatus status = TaskStatus.TODO;
+    private TaskStatus status;
 
     @ManyToOne
     private Folder folder; // Many To One
+
+    @PrePersist
+    private void setDefaultStatus() {
+        if (status == null) {
+            status = TaskStatus.TODO;
+        }
+    }
 }
 

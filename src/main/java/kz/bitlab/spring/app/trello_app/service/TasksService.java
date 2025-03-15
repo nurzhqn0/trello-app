@@ -42,6 +42,10 @@ public class TasksService {
         return tasksRepository.findById(id).orElse(null);
     }
 
+    public List<Task> getTasksByFolderId(Long folderId) {
+        return tasksRepository.findByFolderId(folderId);
+    }
+
     public Task updateTask(Long id, Task updatedTask) {
         log.info("updateTaskCategory with ID: {}", id);
         return tasksRepository.findById(id)
