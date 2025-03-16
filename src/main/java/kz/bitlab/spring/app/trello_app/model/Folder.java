@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -30,5 +32,5 @@ public class Folder {
             joinColumns = @JoinColumn(name = "folder_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<TaskCategory> categories;
+    private Set<TaskCategory> categories = new HashSet<>();
 }

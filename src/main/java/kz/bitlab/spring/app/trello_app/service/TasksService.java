@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,17 +18,17 @@ public class TasksService {
     private final FoldersRepository foldersRepository;
 
 
-    public Task createTask(Task task, Long folderId) {
+    public void createTask(Task task, Long folderId) {
         log.info("createTask Task: {}", task.getTitle());
         Folder folder = foldersRepository.findById(folderId).orElse(null);
 
         if (folder == null) {
             log.warn("Folder not found with ID: {}", folderId);
-            return null;
+            return;
         }
 
         task.setFolder(folder);
-        return tasksRepository.save(task);
+        tasksRepository.save(task);
     }
 
     public List<Task> getAllTasks() {
@@ -58,12 +57,11 @@ public class TasksService {
                 .orElse(null);
     }
 
-    public boolean deleteTask(Long id) {
+    public void deleteTask(Long id) {
         log.info("deleteTaskCategory with ID: {}", id);
         if (!tasksRepository.existsById(id)) {
-            return false;
+            return;
         }
         tasksRepository.deleteById(id);
-        return true;
     }
 }
