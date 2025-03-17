@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main.html" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Details</title>
+</head>
+<body>
+<div layout:fragment="mainFragment">
+        <!-- Edit Task Form -->
+        <h5>Edit Task</h5>
+        <form th:action="@{'/folders/' + ${task.getFolder().getId()} + '/tasks/update/' + ${task.id}}" method="post" class="mb-4">
+            <div class="mb-3">
+                <label class="form-label">Task Title</label>
+                <input type="text" class="form-control" name="title" th:value="${task.title}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" name="description" rows="3" th:text="${task.description}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-control" name="status">
+                    <option value="TODO" th:selected="${task.status.name() == 'TODO'}">To do</option>
+                    <option value="IN_PROGRESS" th:selected="${task.status.name() == 'IN_PROGRESS'}">In Progress</option>
+                    <option value="DONE" th:selected="${task.status.name() == 'DONE'}">Done</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Task</button>
+        </form>
+
+        <hr>
+
+    <!-- Comment List -->
+    <h5 class="mb-3">Comments</h5>
+    <div class="card p-1 mb-4">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item py-2 d-flex gap-2 align-items-center" th:each="comment : ${comments}">
+                <div class="flex-grow-1">
+                    <p class="mb-1" th:text="${comment.comment}"></p>
+                </div>
+
+                <!-- Delete Button triggers Modal -->
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deleteCommentModal-' + ${comment.id}">x</button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'deleteCommentModal-' + ${comment.id}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this comment?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form th:action="@{'/folders/' + ${task.getFolder().getId()} + '/tasks/' + ${task.id} + '/comments/delete/' + ${comment.id}}" method="post" class="d-inline">
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+
+    <!-- Add Comment -->
+    <form th:action="@{'/folders/' + ${task.getFolder().getId()} + '/tasks/' + ${task.id} + '/comments/add'}" method="post" class="mb-4">
+        <input type="hidden" name="taskId" th:value="${task.id}"/>
+        <div class="input-group">
+            <textarea class="form-control" name="comment" rows="2" placeholder="Add a comment..." required></textarea>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+
+    </div>
+</body>
+</html>
